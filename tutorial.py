@@ -7,8 +7,6 @@ import keras.utils as ku
 import numpy as np
 
 files = [
-            'hello.txt',
-            'world.txt',
             'convocation2019.txt'
         ]
 
@@ -33,19 +31,22 @@ def glueBlocks(textBlocks):
         for line in block:
             agg += ' '
             agg += line
-    print('{0}'.format(agg))
+    #print('{0}'.format(agg))
     with open(outputFile, 'w') as outfile:
         outfile.write(agg)
+    return agg
 
 # Combines the lines from each file into a single array
 # Each line is still a single member of that array
 def glueFiles(textBlocks):
-    agg = ''
+    agg = []
     for block in textBlocks:
         agg.extend(block)
-    print('{0}'.format(agg))
+    #print('{0}'.format(agg))
     with open(outputFile, 'w') as outfile:
-        outfile.write(agg)
+        for line in agg:
+            outfile.write(line)
+    return agg
 
 def test():
     blocks = parseFiles(files)
@@ -59,6 +60,14 @@ def dataset_preparation(data, tokenizer):
         corpus.append(corpusElement)
     tokenizer.fit_on_texts(corpus)
     total_words = len(tokenizer.word_index) + 1
+    
+    input_sequences = []
+    for line in corpus:
+        token_list = tokenizer.texts_to_sequences([line])[0]
+        print('{0}'.format(token_list))
+        for i in range(1, len(token_list)):
+            n_gram_sequence = token_list[:i+1]
+            input_sequences.append(n_gram_sequence)
 
 def create_model():
     pass
@@ -68,6 +77,9 @@ def generate_text():
 
 def run():
     tokenizer = Tokenizer()
+    blocks = parseFiles(files)
+    text = glueFiles(blocks)
+    dataset_preparation(text, tokenizer)
 
 run()
 
