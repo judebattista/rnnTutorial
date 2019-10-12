@@ -90,7 +90,7 @@ def create_model(predictors, label, max_sequence_len, total_words):
 
     model.compile(loss='categorical_crossentropy', optimizer='adam')
     earlystop = EarlyStopping(monitor='val_loss', min_delta=0, patience=5, verbose=0, mode='auto')
-    model.fit(predictors, label, epochs=100, verbose=1, callbacks=[earlystop])
+    model.fit(predictors, label, epochs=3, verbose=1, callbacks=[earlystop])
 
     return model
 
@@ -120,6 +120,9 @@ def run():
     blocks = parseFiles(files)
     text = glueFiles(blocks)
     model = training(text, tokenizer)
+
+    text = generate_text("Dear Whitworth ", 3, msl, model, tokenizer)
+    print(text)
 
 
 
