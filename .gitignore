@@ -1,0 +1,6 @@
+~vim/
+rnnEnv/
+*.swp
+*.swo
+
+parsed.txt
