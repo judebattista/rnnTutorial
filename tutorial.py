@@ -7,11 +7,7 @@ import keras.utils as ku
 import numpy as np
 
 files = [
-<<<<<<< HEAD
-            'convocation2019.txt'
-=======
             'BeckTaylor.txt'
->>>>>>> 679e987e330ee1641230595c9fa08024ab4ae7f7
         ]
 
 outputFile = 'parsed.txt'
@@ -21,9 +17,12 @@ def parseFiles(fileList):
 
     for f in fileList:
         lines = []
-        with open(f, 'r') as infile:
+        with open(f, 'r', encoding='utf-8') as infile:
+            c = 0
             for line in infile:
+                c += 1
                 lines.append(line.strip())
+                print (c)
         textBlocks.append(lines)
 
     return textBlocks
