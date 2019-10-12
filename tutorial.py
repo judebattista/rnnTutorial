@@ -7,7 +7,11 @@ import keras.utils as ku
 import numpy as np
 
 files = [
+<<<<<<< HEAD
             'convocation2019.txt'
+=======
+            'BeckTaylor.txt'
+>>>>>>> 679e987e330ee1641230595c9fa08024ab4ae7f7
         ]
 
 outputFile = 'parsed.txt'
@@ -81,6 +85,6 @@ def run():
     text = glueFiles(blocks)
     dataset_preparation(text, tokenizer)
 
-run()
+test()
 
 
