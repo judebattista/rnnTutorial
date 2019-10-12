@@ -7,9 +7,7 @@ import keras.utils as ku
 import numpy as np
 
 files = [
-            'hello.txt',
-            'world.txt',
-            'convocation2019.txt'
+            'BeckTaylor.txt'
         ]
 
 outputFile = 'parsed.txt'
@@ -69,6 +67,6 @@ def generate_text():
 def run():
     tokenizer = Tokenizer()
 
-run()
+test()
 
 
