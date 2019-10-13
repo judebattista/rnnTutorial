@@ -10,7 +10,12 @@ files = [
             'BeckTaylor.txt'
         ]
 
-outputFile = 'parsed.txt'
+textOutputFile = 'parsed.txt'
+
+# If you want to save the file, put the name of the output file here
+modelOutputFile = 'model.h5'
+# If you want to load a previously saved model, put the name of the file here
+modelInputFile = ''
 
 def parseFiles(fileList):
     textBlocks = []
@@ -35,7 +40,7 @@ def glueBlocks(textBlocks):
             agg += ' '
             agg += line
     #print('{0}'.format(agg))
-    with open(outputFile, 'w') as outfile:
+    with open(textOutputFile, 'w') as outfile:
         outfile.write(agg)
     return agg
 
@@ -46,7 +51,7 @@ def glueFiles(textBlocks):
     for block in textBlocks:
         agg.extend(block)
     #print('{0}'.format(agg))
-    with open(outputFile, 'w') as outfile:
+    with open(textOutputFile, 'w') as outfile:
         for line in agg:
             outfile.write(line)
     return agg
@@ -112,16 +117,23 @@ def generate_text(seed_text, next_words, max_sequence_len, model, tokenizer):
 def training(data, tokenizer):
     X, Y, max_len, total_words = dataset_preparation(data, tokenizer)
     model = create_model(X,Y, max_len, total_words)
-    return model 
+    if modelOutputFile:
+        keras.save(modelOutputFile)
+    return max_len, model 
 
 
 def run():
     tokenizer = Tokenizer()
     blocks = parseFiles(files)
     text = glueFiles(blocks)
-    model = training(text, tokenizer)
-
-    text = generate_text("Dear Whitworth ", 3, msl, model, tokenizer)
+    # scope the model variable outside of the conditional
+    model = ''
+    max_len = 0
+    if modelInputFile:
+        model = keras.load(modelInputFile)
+    else:
+        max_len, model = training(text, tokenizer)
+    text = generate_text("Dear Whitworth ", 3, max_len, model, tokenizer)
     print(text)
 
 
